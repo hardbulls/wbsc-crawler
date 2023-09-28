@@ -1,0 +1,42 @@
+{
+  "name": "@hardbulls/wbsc-crawler",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Tool to crawl events, leagues and statistics from WBSC based websites.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --project .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hardbulls/wbsc-crawler.git"
+  },
+  "keywords": [
+    "baseball",
+    "crawler",
+    "hard",
+    "bulls",
+    "baseball"
+  ],
+  "author": "Arjan Frans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hardbulls/wbsc-crawler/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/hardbulls/wbsc-crawler#readme",
+  "dependencies": {
+    "@touch4it/ical-timezones": "^1.9.0",
+    "date-fns": "^2.30.0",
+    "ical-generator": "^5.0.1",
+    "jsdom": "^22.1.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.3",
+    "typescript": "^5.2.2",
+    "@types/node": "^20.7.1"
+  }
+}
