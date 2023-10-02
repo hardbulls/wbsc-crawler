@@ -1,6 +1,6 @@
 {
   "name": "@hardbulls/wbsc-crawler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "Tool to crawl events, leagues and statistics from WBSC based websites.",
   "main": "dist/index.js",

@@ -7,6 +7,10 @@ import {IcalGenerator} from "./Calendar/IcalGenerator";
 export {GameCrawler} from "./GameCrawler";
 export {StandingsCrawler} from './StandingsCrawler'
 
+export {Game} from './Model/Game'
+export {Standing} from './Model/Standing'
+export {GameStatus} from './Model/GameStatus'
+
 type CrawlOptions = {
     standings: string | undefined
     games: string | undefined
