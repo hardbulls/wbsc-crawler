@@ -2,7 +2,6 @@ import {Game} from "./Model/Game";
 import {Standing} from "./Model/Standing";
 import {GameCrawler} from "./GameCrawler";
 import {StandingsCrawler} from "./StandingsCrawler";
-import {IcalGenerator} from "./Calendar/IcalGenerator";
 
 export {GameCrawler} from "./GameCrawler";
 export {StandingsCrawler} from './StandingsCrawler'
@@ -37,15 +36,4 @@ export const crawl = async (options: CrawlOptions): Promise<CrawlResponse> => {
         games,
         standings
     }
-}
-
-export const gamesCalendar = async (name: string, gamesUrl: string, gameDurationInMinutes: number, timezone?: string) => {
-    const games = await GameCrawler.crawl(gamesUrl)
-
-    if (!timezone) {
-        timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    }
-
-    return IcalGenerator.games(name, games, timezone, gameDurationInMinutes)
-
 }

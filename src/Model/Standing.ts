@@ -1,3 +1,5 @@
+import { StandingType } from "./StandingType"
+
 export interface Standing {
     position: number,
     team: string,
@@ -5,5 +7,6 @@ export interface Standing {
     loses: number,
     ties: number,
     winsPercentage: number
-    gamesBehind: number
+    gamesBehind?: number
+    type: StandingType
 }
