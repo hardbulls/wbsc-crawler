@@ -1,6 +1,5 @@
 export enum GameStatus {
-    SCHEDULED = 'scheduled',
-    FINISHED = 'finished',
-    CANCELED = 'canceled'
-
+  SCHEDULED = "scheduled",
+  FINISHED = "finished",
+  CANCELED = "canceled",
 }
