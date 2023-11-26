@@ -11,6 +11,7 @@ export { Standing } from "./Model/Standing";
 export { GameStatus } from "./Model/GameStatus";
 
 type CrawlOptions = {
+  timezone: string | undefined;
   standings: string | undefined;
   games: string | undefined;
 };
@@ -25,7 +26,7 @@ export const crawl = async (options: CrawlOptions): Promise<CrawlResponse> => {
   let standings: Standing[] = [];
 
   if (options.games) {
-    games = await GameCrawler.crawl(options.games);
+    games = await GameCrawler.crawl(options.games, options.timezone);
   }
 
   if (options.standings) {

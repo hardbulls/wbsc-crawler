@@ -4,9 +4,10 @@ import { Game } from "./Model/Game";
 import { GameStatus } from "./Model/GameStatus";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { NodeNotFoundError } from "./Parser/NodeNotFoundError";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export const GameCrawler = {
-  crawl: async (url: string): Promise<Array<Game>> => {
+  crawl: async (url: string, timezone?: string): Promise<Array<Game>> => {
     const html = await (await fetch(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
@@ -27,11 +28,15 @@ export const GameCrawler = {
         throw new NodeNotFoundError(4);
       }
 
-      const paredDate = parseDate(
+      let parsedDate = parseDate(
         date.textContent,
         "dd/MM/yyyy, HH:mm",
         new Date(),
       );
+
+      if (timezone) {
+        parsedDate = zonedTimeToUtc(parsedDate, timezone);
+      }
 
       const teamInfo = querySelectorOrThrow(row, ".opponents");
       const awayTeamInfo = querySelectorOrThrow(
@@ -88,7 +93,7 @@ export const GameCrawler = {
         awayScore: awayScore,
         homeScore: homeScore,
         status: gameStatus,
-        date: paredDate,
+        date: parsedDate,
       });
     }
 
