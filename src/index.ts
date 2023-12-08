@@ -10,6 +10,7 @@ import { PlayerStatistics } from "./Model/PlayerStatistics";
 
 export { GameCrawler } from "./GameCrawler";
 export { StandingsCrawler } from "./StandingsCrawler";
+export { StatisticsCrawler } from "./StatisticsCrawler";
 
 export { Game } from "./Model/Game";
 export { Standing } from "./Model/Standing";
