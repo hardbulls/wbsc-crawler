@@ -1,30 +1,37 @@
 {
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "root": true,
+  "rules": {
+    "prettier/prettier": "error",
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "tabWidth": 4
+      }
     ],
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint",
-      "prettier"
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": "allow-with-description"
+      }
     ],
-    "root": true,
-    "rules": {
-      "prettier/prettier": "error",
-      "@typescript-eslint/ban-ts-comment": [
-        "error",
-        {
-          "ts-ignore": "allow-with-description"
-        }
-      ],
-      "@typescript-eslint/no-unused-vars": [
-        "warn"
-      ],
-      "@typescript-eslint/no-explicit-any": [
-        "warn",
-        {
-          "ignoreRestArgs": false
-        }
-      ]
-    }
+    "@typescript-eslint/no-unused-vars": [
+      "warn"
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "warn",
+      {
+        "ignoreRestArgs": false
+      }
+    ]
   }
+}
