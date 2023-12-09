@@ -40,9 +40,11 @@ export const StatisticsCrawler = {
     }
 
     const names = [
-      ...Object.keys(battingStatistics),
-      ...Object.keys(pitchingStatistics),
-      ...Object.keys(fieldingStatistics),
+      ...new Set([
+        ...Object.keys(battingStatistics),
+        ...Object.keys(pitchingStatistics),
+        ...Object.keys(fieldingStatistics),
+      ]),
     ];
 
     const result: PlayerStatistics[] = [];

@@ -17,5 +17,5 @@ import { crawl } from "../src";
     },
   });
 
-  console.log(statistics);
+  console.log(statistics.map(v => v.name));
 })();
