@@ -24,6 +24,18 @@ const getStandingType = (input: string): StandingType => {
     return StandingType.GROUP_C;
   }
 
+  if (input.includes("west")) {
+    return StandingType.WEST;
+  }
+
+  if (input.includes("mitte") || input.includes("middle")) {
+    return StandingType.MIDDLE;
+  }
+
+  if (input.includes("east") || input.includes("ost")) {
+    return StandingType.EAST;
+  }
+
   return StandingType.UNKNOWN;
 };
 

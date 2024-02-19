@@ -6,4 +6,7 @@ export enum StandingType {
   REGULAR = "REGULAR",
   PLAYOFF = "PLAYOFF",
   UNKNOWN = "UNKNOWN",
+  WEST = "WEST",
+  EAST = "EAST",
+  MIDDLE = "MIDDLE",
 }
