@@ -12,6 +12,10 @@ const getStandingType = (input: string): StandingType => {
     return StandingType.REGULAR;
   }
 
+  if (input.includes("playoff")) {
+    return StandingType.PLAYOFF;
+  }
+
   if (input.includes("group a") || input.includes("gruppe a")) {
     return StandingType.GROUP_A;
   }
