@@ -4,7 +4,7 @@ import { Game } from "./Model/Game";
 import { GameStatus } from "./Model/GameStatus";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { NodeNotFoundError } from "./Parser/NodeNotFoundError";
-import { zonedTimeToUtc } from "date-fns-tz";
+import { fromZonedTime } from "date-fns-tz";
 
 export const GameCrawler = {
   crawl: async (url: string, timezone?: string): Promise<Array<Game>> => {
@@ -35,7 +35,7 @@ export const GameCrawler = {
       );
 
       if (timezone) {
-        parsedDate = zonedTimeToUtc(parsedDate, timezone);
+        parsedDate = fromZonedTime(parsedDate, timezone);
       }
 
       const teamInfo = querySelectorOrThrow(row, ".opponents");
