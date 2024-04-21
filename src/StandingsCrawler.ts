@@ -16,8 +16,8 @@ const getStandingType = (input: string): StandingType => {
     return StandingType.PLAYOFF;
   }
 
-  if (input.includes("final")) {
-    return StandingType.FINALS;
+  if (input.includes("finalturnier")) {
+    return StandingType.FINAL_TOURNAMENT;
   }
 
   if (input.includes("group a") || input.includes("gruppe a")) {
