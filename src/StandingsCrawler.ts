@@ -16,6 +16,10 @@ const getStandingType = (input: string): StandingType => {
     return StandingType.PLAYOFF;
   }
 
+  if (input.includes("final")) {
+    return StandingType.FINALS;
+  }
+
   if (input.includes("group a") || input.includes("gruppe a")) {
     return StandingType.GROUP_A;
   }
@@ -43,6 +47,8 @@ const getStandingType = (input: string): StandingType => {
   return StandingType.UNKNOWN;
 };
 
+const IGNORE_TABLES = ["Aktueller Daily Report"].map((v) => v.toLowerCase());
+
 export const StandingsCrawler = {
   crawl: async (url: string): Promise<Array<Standing>> => {
     const html = await (await fetch(url, { method: "GET" })).text();
@@ -55,6 +61,11 @@ export const StandingsCrawler = {
 
     for (const table of tables) {
       const tableTitle = table.querySelector("h3, h2, h1")?.textContent || "";
+
+      if (IGNORE_TABLES.includes(tableTitle.toLowerCase())) {
+        continue;
+      }
+
       const standingType = getStandingType(tableTitle.toLowerCase());
       const standing: Standing = {
         type: standingType,
@@ -162,7 +173,9 @@ export const StandingsCrawler = {
         }
       }
 
-      standings.push(standing);
+      if (standing.results.length > 0) {
+        standings.push(standing);
+      }
     }
 
     return standings;

@@ -5,6 +5,7 @@ export enum StandingType {
   GROUP_C = "GROUP_C",
   REGULAR = "REGULAR",
   PLAYOFF = "PLAYOFF",
+  FINALS = "FINALS",
   UNKNOWN = "UNKNOWN",
   WEST = "WEST",
   EAST = "EAST",
