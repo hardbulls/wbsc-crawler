@@ -49,18 +49,6 @@ const getStandingType = (input: string): StandingType => {
 
 const IGNORE_TABLES = ["Aktueller Daily Report"].map((v) => v.toLowerCase());
 
-function getTableTitle(table: Element): string {
-  for (const selector of ["h1", "h2", "h3"]) {
-    const title = table.querySelector(selector)?.textContent;
-
-    if (title) {
-      return title;
-    }
-  }
-
-  return "";
-}
-
 export const StandingsCrawler = {
   crawl: async (url: string): Promise<Array<Standing>> => {
     const html = await (await fetch(url, { method: "GET" })).text();
@@ -72,7 +60,7 @@ export const StandingsCrawler = {
     const standings = [];
 
     for (const table of tables) {
-      const tableTitle = getTableTitle(table);
+      const tableTitle = table.querySelector("h3, h2, h1")?.textContent || "";
 
       if (IGNORE_TABLES.includes(tableTitle.toLowerCase())) {
         continue;
