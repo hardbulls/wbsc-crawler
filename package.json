@@ -1,6 +1,6 @@
 {
   "name": "@hardbulls/wbsc-crawler",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": false,
   "description": "Tool to crawl events, leagues and statistics from WBSC based websites.",
   "main": "dist/index.js",
@@ -31,10 +31,10 @@
   "dependencies": {
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.3",
-    "jsdom": "^24.0.0"
+    "jsdom": "^21.0.0"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.3",
+    "@types/jsdom": "^21.0.0",
     "@types/node": "^20.7.1",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "eslint": "^8.51.0",
