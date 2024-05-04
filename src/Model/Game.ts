@@ -8,4 +8,5 @@ export interface Game {
   awayScore: number;
   venue: string;
   date: Date;
+  note?: string | null;
 }

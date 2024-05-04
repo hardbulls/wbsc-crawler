@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import { parse as parseDate } from "date-fns";
+import { parse as parseDate, isValid as isValidDate } from "date-fns";
 import { Game } from "./Model/Game";
 import { GameStatus } from "./Model/GameStatus";
 import { querySelectorOrThrow } from "./Parser/Selector";
@@ -17,11 +17,16 @@ export const GameCrawler = {
     for (const row of rows) {
       const gameInfo = querySelectorOrThrow(row, ".game-info");
 
+      const note = querySelectorOrThrow(
+        row,
+        "p:nth-child(1)",
+      )?.textContent?.trim();
+
       const venue = querySelectorOrThrow(
         gameInfo,
-        "p:nth-child(2)",
+        "p:nth-last-child(3)",
       ).textContent?.trim();
-      const date = querySelectorOrThrow(gameInfo, "p:nth-child(4)")
+      const date = querySelectorOrThrow(gameInfo, "p:nth-last-child(1)")
         .childNodes?.[4];
 
       if (!date || !date.textContent) {
@@ -33,6 +38,18 @@ export const GameCrawler = {
         "dd/MM/yyyy, HH:mm",
         new Date(),
       );
+
+      if (!isValidDate(parsedDate)) {
+        parsedDate = parseDate(
+          date.textContent,
+          "dd/MM/yyyy --:--",
+          new Date(),
+        );
+
+        if (isValidDate(parsedDate)) {
+          parsedDate.setHours(14, 0);
+        }
+      }
 
       if (timezone) {
         parsedDate = fromZonedTime(parsedDate, timezone);
@@ -94,6 +111,7 @@ export const GameCrawler = {
         homeScore: homeScore,
         status: gameStatus,
         date: parsedDate,
+        note: note || null,
       });
     }
 
