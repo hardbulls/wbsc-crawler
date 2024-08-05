@@ -98,6 +98,11 @@ export const GameCrawler = {
       if (statusText && ["w.o.", "forfeit"].includes(statusText)) {
         gameStatus = GameStatus.FORFEIT;
       } else if (
+        statusText &&
+        ["fortsetzung", "suspended"].includes(statusText)
+      ) {
+        gameStatus = GameStatus.SUSPENDED;
+      } else if (
         Array.from(gameStatusInfo.classList.values()).includes("final-green")
       ) {
         gameStatus = GameStatus.FINISHED;
