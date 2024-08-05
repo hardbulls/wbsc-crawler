@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import { parse as parseDate, isValid as isValidDate } from "date-fns";
+import { isValid as isValidDate, parse as parseDate } from "date-fns";
 import { Game } from "./Model/Game";
 import { GameStatus } from "./Model/GameStatus";
 import { querySelectorOrThrow } from "./Parser/Selector";
@@ -95,7 +95,9 @@ export const GameCrawler = {
       let gameStatus = GameStatus.SCHEDULED;
       const statusText = gameStatusInfo.textContent?.trim().toLowerCase();
 
-      if (
+      if (statusText && ["w.o.", "forfeit"].includes(statusText)) {
+        gameStatus = GameStatus.FORFEIT;
+      } else if (
         Array.from(gameStatusInfo.classList.values()).includes("final-green")
       ) {
         gameStatus = GameStatus.FINISHED;
