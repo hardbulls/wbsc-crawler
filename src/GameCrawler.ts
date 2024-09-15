@@ -82,8 +82,8 @@ export const GameCrawler = {
       ).textContent?.trim();
 
       const scoreInfo = querySelectorOrThrow(
-        teamInfo,
-        "div:nth-child(2)",
+        row,
+        "div.score > div:nth-child(2) > p",
       ).textContent?.trim();
       let awayScore = 0;
       let homeScore = 0;
