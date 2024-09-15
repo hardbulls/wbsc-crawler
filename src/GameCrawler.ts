@@ -114,7 +114,7 @@ export const GameCrawler = {
         gameStatus = GameStatus.SUSPENDED;
       } else if (
         statusText &&
-        ("final" === statusText || statusText.match(/(F)\/\d+/))
+        ("final" === statusText || statusText.match(/^f\/\d+$/))
       ) {
         gameStatus = GameStatus.FINISHED;
       } else if (statusText === "canceled") {
