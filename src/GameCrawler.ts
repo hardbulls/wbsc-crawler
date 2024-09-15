@@ -11,26 +11,32 @@ export const GameCrawler = {
     const html = await (await fetch(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
-    const rows = dom.window.document.querySelectorAll(".game-row");
+    const rows = dom.window.document.querySelectorAll(".schedule-item");
     const games: Game[] = [];
 
     for (const row of rows) {
-      const gameInfo = querySelectorOrThrow(row, ".game-info");
+      const gameInfo = querySelectorOrThrow(
+        row,
+        "a.box-score-link:nth-child(1)",
+      );
 
       const note = querySelectorOrThrow(
         row,
-        "p:nth-child(1)",
+        "p:nth-child(4)",
       )?.textContent?.trim();
 
       const venue = querySelectorOrThrow(
         gameInfo,
-        "p:nth-last-child(3)",
+        "div:nth-child(1) > p:nth-child(2)",
       ).textContent?.trim();
-      const date = querySelectorOrThrow(gameInfo, "p:nth-last-child(1)")
-        .childNodes?.[4];
+
+      const date = querySelectorOrThrow(
+        gameInfo,
+        "div:nth-child(2) > p:nth-child(2)",
+      );
 
       if (!date || !date.textContent) {
-        throw new NodeNotFoundError(4);
+        throw new NodeNotFoundError(2);
       }
 
       let parsedDate = parseDate(
@@ -55,28 +61,29 @@ export const GameCrawler = {
         parsedDate = fromZonedTime(parsedDate, timezone);
       }
 
-      const teamInfo = querySelectorOrThrow(row, ".opponents");
+      const teamInfo = querySelectorOrThrow(row, ".score");
       const awayTeamInfo = querySelectorOrThrow(
         teamInfo,
-        ".text-center:nth-child(1)",
+        "div.team-info:nth-child(1)",
       );
+
       const awayTeamName = querySelectorOrThrow(
         awayTeamInfo,
-        ".team-name",
+        "p:nth-child(4)p:nth-child(4)",
       ).textContent?.trim();
 
       const homeTeamInfo = querySelectorOrThrow(
         teamInfo,
-        ".text-center:nth-child(3)",
+        "div.team-info:nth-child(3)",
       );
       const homeTeamName = querySelectorOrThrow(
         homeTeamInfo,
-        ".team-name",
+        "p:nth-child(4)p:nth-child(4)",
       ).textContent?.trim();
 
       const scoreInfo = querySelectorOrThrow(
         teamInfo,
-        ".text-center:nth-child(2) > .score",
+        "div:nth-child(2)",
       ).textContent?.trim();
       let awayScore = 0;
       let homeScore = 0;
@@ -90,7 +97,10 @@ export const GameCrawler = {
         homeScore = parsedScore[1] || 0;
       }
 
-      const gameStatusInfo = querySelectorOrThrow(row, ".game-status-label");
+      const gameStatusInfo = querySelectorOrThrow(
+        row,
+        "div:nth-child(3) > div > a > div > p",
+      );
 
       let gameStatus = GameStatus.SCHEDULED;
       const statusText = gameStatusInfo.textContent?.trim().toLowerCase();
@@ -103,7 +113,8 @@ export const GameCrawler = {
       ) {
         gameStatus = GameStatus.SUSPENDED;
       } else if (
-        Array.from(gameStatusInfo.classList.values()).includes("final-green")
+        statusText &&
+        ("final" === statusText || statusText.match(/(F)\/\d+/))
       ) {
         gameStatus = GameStatus.FINISHED;
       } else if (statusText === "canceled") {
