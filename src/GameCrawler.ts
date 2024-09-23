@@ -61,7 +61,9 @@ export const GameCrawler = {
         parsedDate = fromZonedTime(parsedDate, timezone);
       }
 
-      const teamInfo = querySelectorOrThrow(row, ".score");
+      const teamInfo =
+        row.querySelector(".score") ||
+        querySelectorOrThrow(row, ".regular-score");
       const awayTeamInfo = querySelectorOrThrow(
         teamInfo,
         "div.team-info:nth-child(1)",
@@ -81,15 +83,16 @@ export const GameCrawler = {
         "p:nth-child(4)p:nth-child(4)",
       ).textContent?.trim();
 
-      const scoreInfo = querySelectorOrThrow(
-        row,
-        "div.score > div:nth-child(2) > p",
-      ).textContent?.trim();
+      const scoreInfo =
+        row.querySelector("div.score > div:nth-child(2) > p") ||
+        querySelectorOrThrow(row, "div.regular-score > div:nth-child(2) > p");
+      const scoreInfoText = scoreInfo.textContent?.trim();
+
       let awayScore = 0;
       let homeScore = 0;
 
-      if (scoreInfo) {
-        const parsedScore = scoreInfo
+      if (scoreInfoText) {
+        const parsedScore = scoreInfoText
           .split(":")
           .map((v) => Number.parseInt(v.trim()));
 
