@@ -63,7 +63,8 @@ export const GameCrawler = {
 
       const teamInfo =
         row.querySelector(".score") ||
-        querySelectorOrThrow(row, ".regular-score");
+        row.querySelector(".regular-score") ||
+        querySelectorOrThrow(row, ".baseball-score-bug");
       const awayTeamInfo = querySelectorOrThrow(
         teamInfo,
         "div.team-info:nth-child(1)",
@@ -85,7 +86,11 @@ export const GameCrawler = {
 
       const scoreInfo =
         row.querySelector("div.score > div:nth-child(2) > p") ||
-        querySelectorOrThrow(row, "div.regular-score > div:nth-child(2) > p");
+        row.querySelector("div.regular-score > div:nth-child(2) > p") ||
+        querySelectorOrThrow(
+          row,
+          "div.baseball-score-bug > div:nth-child(2) > p",
+        );
       const scoreInfoText = scoreInfo.textContent?.trim();
 
       let awayScore = 0;
@@ -102,7 +107,7 @@ export const GameCrawler = {
 
       const gameStatusInfo = querySelectorOrThrow(
         row,
-        "div:nth-child(3) > div > a > div > p",
+        "div.calendar-buttons a > div > p",
       );
 
       let gameStatus = GameStatus.SCHEDULED;
