@@ -5,10 +5,11 @@ import { GameStatus } from "./Model/GameStatus";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { NodeNotFoundError } from "./Parser/NodeNotFoundError";
 import { fromZonedTime } from "date-fns-tz";
+import { fetchUrl } from "./fetch";
 
 export const GameCrawler = {
   crawl: async (url: string, timezone?: string): Promise<Array<Game>> => {
-    const html = await (await fetch(url, { method: "GET" })).text();
+    const html = await (await fetchUrl(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
     const rows = dom.window.document.querySelectorAll(".schedule-item");

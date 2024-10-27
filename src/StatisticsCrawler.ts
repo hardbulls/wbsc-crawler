@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { PlayerStatistics } from "./Model/PlayerStatistics";
+import { fetchUrl } from "./fetch";
 
 type HeaderMapping = {
   [key: string]: string;
@@ -73,10 +74,13 @@ export const StatisticsCrawler = {
 };
 
 const crawlUrl = async (url: string) => {
-  const html = await (await fetch(url, { method: "GET" })).text();
+  const html = await (await fetchUrl(url, { method: "GET" })).text();
   const dom = new JSDOM(html);
 
-  const table = querySelectorOrThrow(dom.window.document, "table");
+  const table = querySelectorOrThrow(
+    dom.window.document,
+    "table.table-condensed",
+  );
   const headers = table.querySelectorAll("thead > tr > th");
   const rows = table.querySelectorAll("tbody > tr");
 

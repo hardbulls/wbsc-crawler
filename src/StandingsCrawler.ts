@@ -2,6 +2,7 @@ import { JSDOM } from "jsdom";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { Standing } from "./Model/Standing";
 import { StandingType } from "./Model/StandingType";
+import { fetchUrl } from "./fetch";
 
 const getStandingType = (input: string): StandingType => {
   if (input.includes("endklassement")) {
@@ -51,7 +52,7 @@ const IGNORE_TABLES = ["Aktueller Daily Report"].map((v) => v.toLowerCase());
 
 export const StandingsCrawler = {
   crawl: async (url: string): Promise<Array<Standing>> => {
-    const html = await (await fetch(url, { method: "GET" })).text();
+    const html = await (await fetchUrl(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
     const tables = dom.window.document.querySelectorAll(
