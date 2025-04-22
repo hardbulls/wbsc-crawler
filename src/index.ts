@@ -12,6 +12,7 @@ import { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
 export { GameCrawler } from "./GameCrawler";
 export { StandingsCrawler } from "./StandingsCrawler";
 export { StatisticsCrawler } from "./StatisticsCrawler";
+export { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
 
 export { Game } from "./Model/Game";
 export { Standing } from "./Model/Standing";
