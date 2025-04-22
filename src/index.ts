@@ -7,6 +7,7 @@ import {
   StatisticsCrawlerOptions,
 } from "./StatisticsCrawler";
 import { PlayerStatistics } from "./Model/PlayerStatistics";
+import { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
 
 export { GameCrawler } from "./GameCrawler";
 export { StandingsCrawler } from "./StandingsCrawler";
@@ -43,7 +44,7 @@ export const crawl = async (options: CrawlOptions): Promise<CrawlResponse> => {
   }
 
   if (options.statistics) {
-    statistics = await StatisticsCrawler.crawl(options.statistics);
+    statistics = await JsonStatisticsCrawler.crawl(options.statistics);
   }
 
   return {
