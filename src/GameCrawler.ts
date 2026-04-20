@@ -161,7 +161,7 @@ function crawlAppJson(dom: JSDOM, timezone?: string): Game[] {
   for (const gameData of data.props.games) {
     let gameStatus = GameStatus.SCHEDULED;
 
-    if (gameData.gamestatus === 3) {
+    if (gameData.gamestatus === 3 || gameData.gamestatus === 2) {
       gameStatus = GameStatus.FINISHED;
     } else if (gameData.gamestatus === 4) {
       gameStatus = GameStatus.FORFEIT;
