@@ -7,8 +7,16 @@ import { NodeNotFoundError } from "./Parser/NodeNotFoundError";
 import { fromZonedTime } from "date-fns-tz";
 import { fetchUrl } from "./fetch";
 
+export interface GameCrawlerOptions {
+  timezone?: string;
+  tickerUrlPattern?: string;
+}
+
 export const GameCrawler = {
-  crawl: async (url: string, timezone?: string): Promise<Array<Game>> => {
+  crawl: async (
+    url: string,
+    options?: GameCrawlerOptions,
+  ): Promise<Array<Game>> => {
     const html = await (await fetchUrl(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
@@ -17,10 +25,10 @@ export const GameCrawler = {
     ) as HTMLDivElement | null;
 
     if (appElement && appElement.hasAttribute("data-page")) {
-      return crawlAppJson(dom, timezone);
+      return crawlAppJson(dom, options);
     }
 
-    return crawlHtml(dom, timezone);
+    return crawlHtml(dom, options?.timezone);
   },
 };
 
@@ -150,13 +158,16 @@ function crawlHtml(dom: JSDOM, timezone?: string): Game[] {
   return games;
 }
 
-function crawlAppJson(dom: JSDOM, timezone?: string): Game[] {
+function crawlAppJson(dom: JSDOM, options?: GameCrawlerOptions): Game[] {
   const appElement = dom.window.document.querySelector(
     "#app",
   ) as HTMLDivElement;
   const dataPage = appElement.getAttribute("data-page") as string;
   const data = JSON.parse(dataPage);
   const games: Game[] = [];
+
+  const tournamentkey: string | null =
+    data.props?.tournament?.tournamentkey ?? null;
 
   for (const gameData of data.props.games) {
     let gameStatus = GameStatus.SCHEDULED;
@@ -175,8 +186,15 @@ function crawlAppJson(dom: JSDOM, timezone?: string): Game[] {
 
     let parsedDate = gameData.start;
 
-    if (timezone) {
-      parsedDate = fromZonedTime(parsedDate, timezone);
+    if (options?.timezone) {
+      parsedDate = fromZonedTime(parsedDate, options.timezone);
+    }
+
+    let tickerUrl: string | null = null;
+    if (tournamentkey && options?.tickerUrlPattern && gameData.id) {
+      tickerUrl = options.tickerUrlPattern
+        .replace("{tournamentkey}", tournamentkey ?? "")
+        .replace("{id}", gameData.id);
     }
 
     games.push({
@@ -188,6 +206,7 @@ function crawlAppJson(dom: JSDOM, timezone?: string): Game[] {
       status: gameStatus,
       date: parsedDate,
       note: gameData.note || null,
+      tickerUrl,
     });
   }
 

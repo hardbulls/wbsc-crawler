@@ -4,6 +4,8 @@ import { inspect } from "util";
 (async () => {
   const { games, standings, statistics } = await crawl({
     timezone: "Europe/Vienna",
+    tickerUrlPattern:
+      "https://www.baseballsoftball.at/de/events/{tournamentkey}/schedule-and-results/box-score/{id}",
     // standings:
     //   "https://www.baseballsoftball.at/de/events/baseball-2-bundesliga-west-2024/standings",
     games:

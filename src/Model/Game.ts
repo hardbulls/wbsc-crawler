@@ -9,4 +9,5 @@ export interface Game {
   venue: string;
   date: Date;
   note?: string | null;
+  tickerUrl?: string | null;
 }

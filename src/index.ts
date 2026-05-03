@@ -1,6 +1,6 @@
 import { Game } from "./Model/Game";
 import { Standing } from "./Model/Standing";
-import { GameCrawler } from "./GameCrawler";
+import { GameCrawler, GameCrawlerOptions } from "./GameCrawler";
 import { StandingsCrawler } from "./StandingsCrawler";
 import {
   StatisticsCrawler,
@@ -9,7 +9,7 @@ import {
 import { PlayerStatistics } from "./Model/PlayerStatistics";
 import { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
 
-export { GameCrawler } from "./GameCrawler";
+export { GameCrawler, GameCrawlerOptions } from "./GameCrawler";
 export { StandingsCrawler } from "./StandingsCrawler";
 export { StatisticsCrawler } from "./StatisticsCrawler";
 export { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
@@ -20,6 +20,7 @@ export { GameStatus } from "./Model/GameStatus";
 
 type CrawlOptions = {
   timezone?: string;
+  tickerUrlPattern?: string;
   standings?: string;
   games?: string;
   statistics?: StatisticsCrawlerOptions;
@@ -37,7 +38,11 @@ export const crawl = async (options: CrawlOptions): Promise<CrawlResponse> => {
   let statistics: PlayerStatistics[] = [];
 
   if (options.games) {
-    games = await GameCrawler.crawl(options.games, options.timezone);
+    const gameCrawlerOptions: GameCrawlerOptions = {
+      timezone: options.timezone,
+      tickerUrlPattern: options.tickerUrlPattern,
+    };
+    games = await GameCrawler.crawl(options.games, gameCrawlerOptions);
   }
 
   if (options.standings) {
