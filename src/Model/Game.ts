@@ -10,4 +10,6 @@ export interface Game {
   date: Date;
   note?: string | null;
   tickerUrl?: string | null;
+  externalGameId?: string | null;
+  externalTournamentId?: string | null;
 }

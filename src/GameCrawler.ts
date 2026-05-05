@@ -206,7 +206,9 @@ function crawlAppJson(dom: JSDOM, options?: GameCrawlerOptions): Game[] {
       status: gameStatus,
       date: parsedDate,
       note: gameData.note || null,
-      tickerUrl,
+      tickerUrl: tickerUrl,
+      externalTournamentId: `${tournamentkey}`,
+      externalGameId: `${gameData.id}`,
     });
   }
 
