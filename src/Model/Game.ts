@@ -1,4 +1,5 @@
 import { GameStatus } from "./GameStatus";
+import { Livescore } from "./Livescore";
 
 export interface Game {
   status: GameStatus;
@@ -12,4 +13,6 @@ export interface Game {
   tickerUrl?: string | null;
   externalGameId?: string | null;
   externalTournamentId?: string | null;
+  externalTournamentKey?: string | null;
+  livescore?: Livescore | null;
 }

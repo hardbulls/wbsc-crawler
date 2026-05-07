@@ -169,10 +169,15 @@ function crawlAppJson(dom: JSDOM, options?: GameCrawlerOptions): Game[] {
   const tournamentkey: string | null =
     data.props?.tournament?.tournamentkey ?? null;
 
+  const tournamentid: string | null =
+    data.props?.tournament?.tournamentid ?? null;
+
   for (const gameData of data.props.games) {
     let gameStatus = GameStatus.SCHEDULED;
 
-    if (gameData.gamestatus === 3 || gameData.gamestatus === 2) {
+    if (gameData.gamestatus === 1) {
+      gameStatus = GameStatus.ONGOING;
+    } else if (gameData.gamestatus === 3 || gameData.gamestatus === 2) {
       gameStatus = GameStatus.FINISHED;
     } else if (gameData.gamestatus === 4) {
       gameStatus = GameStatus.FORFEIT;
@@ -207,7 +212,8 @@ function crawlAppJson(dom: JSDOM, options?: GameCrawlerOptions): Game[] {
       date: parsedDate,
       note: gameData.note || null,
       tickerUrl: tickerUrl,
-      externalTournamentId: `${tournamentkey}`,
+      externalTournamentId: `${tournamentid}`,
+      externalTournamentKey: `${tournamentkey}`,
       externalGameId: `${gameData.id}`,
     });
   }

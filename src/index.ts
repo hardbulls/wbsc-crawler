@@ -2,10 +2,7 @@ import { Game } from "./Model/Game";
 import { Standing } from "./Model/Standing";
 import { GameCrawler, GameCrawlerOptions } from "./GameCrawler";
 import { StandingsCrawler } from "./StandingsCrawler";
-import {
-  StatisticsCrawler,
-  StatisticsCrawlerOptions,
-} from "./StatisticsCrawler";
+import { StatisticsCrawlerOptions } from "./StatisticsCrawler";
 import { PlayerStatistics } from "./Model/PlayerStatistics";
 import { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
 
@@ -13,10 +10,12 @@ export { GameCrawler, GameCrawlerOptions } from "./GameCrawler";
 export { StandingsCrawler } from "./StandingsCrawler";
 export { StatisticsCrawler } from "./StatisticsCrawler";
 export { JsonStatisticsCrawler } from "./JsonStatisticsCrawler";
+export { LivescoreCrawler } from "./LivescoreCrawler";
 
 export { Game } from "./Model/Game";
 export { Standing } from "./Model/Standing";
 export { GameStatus } from "./Model/GameStatus";
+export { Livescore } from "./Model/Livescore";
 
 type CrawlOptions = {
   timezone?: string;
