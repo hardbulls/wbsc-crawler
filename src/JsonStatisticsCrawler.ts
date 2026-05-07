@@ -1,4 +1,3 @@
-import { JSDOM } from "jsdom";
 import { fetchUrl } from "./fetch";
 import { PlayerStatistics } from "./Model/PlayerStatistics";
 
@@ -157,7 +156,7 @@ const crawlUrl = async (url: string) => {
       continue;
     }
 
-    const name = parseName(playerData.name);
+    const name = await parseName(playerData.name);
     const statistics: { [key: string]: number } = {};
 
     for (const [key, value] of Object.entries(playerData)) {
@@ -189,7 +188,8 @@ const crawlUrl = async (url: string) => {
   return results;
 };
 
-const parseName = (html: string): string => {
+const parseName = async (html: string): Promise<string> => {
+  const { JSDOM } = await import("jsdom");
   const dom = new JSDOM(html);
   const last = dom.window.document
     .querySelector(".lastname")

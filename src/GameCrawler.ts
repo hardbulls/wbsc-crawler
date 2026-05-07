@@ -1,4 +1,4 @@
-import { JSDOM } from "jsdom";
+import type { JSDOM } from "jsdom";
 import { isValid as isValidDate, parse as parseDate } from "date-fns";
 import { Game } from "./Model/Game";
 import { GameStatus } from "./Model/GameStatus";
@@ -17,6 +17,7 @@ export const GameCrawler = {
     url: string,
     options?: GameCrawlerOptions,
   ): Promise<Array<Game>> => {
+    const { JSDOM } = await import("jsdom");
     const html = await (await fetchUrl(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
@@ -169,8 +170,7 @@ function crawlAppJson(dom: JSDOM, options?: GameCrawlerOptions): Game[] {
   const tournamentkey: string | null =
     data.props?.tournament?.tournamentkey ?? null;
 
-  const tournamentid: string | null =
-    data.props?.tournament?.tournamentid ?? null;
+  const tournamentid: string | null = data.props?.tournament?.id ?? null;
 
   for (const gameData of data.props.games) {
     let gameStatus = GameStatus.SCHEDULED;

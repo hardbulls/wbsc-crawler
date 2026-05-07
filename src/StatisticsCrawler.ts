@@ -1,4 +1,3 @@
-import { JSDOM } from "jsdom";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { PlayerStatistics } from "./Model/PlayerStatistics";
 import { fetchUrl } from "./fetch";
@@ -74,6 +73,7 @@ export const StatisticsCrawler = {
 };
 
 const crawlUrl = async (url: string) => {
+  const { JSDOM } = await import("jsdom");
   const html = await (await fetchUrl(url, { method: "GET" })).text();
   const dom = new JSDOM(html);
 

@@ -16,4 +16,5 @@ export interface Livescore {
   pitcher: string;
   batter: string;
   status: GameStatus;
+  start: Date;
 }

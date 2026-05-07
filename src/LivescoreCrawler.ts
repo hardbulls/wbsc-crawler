@@ -1,3 +1,4 @@
+import { fromZonedTime } from "date-fns-tz";
 import { Livescore } from "./Model/Livescore";
 import { GameStatus } from "./Model/GameStatus";
 import { fetchUrl } from "./fetch";
@@ -23,7 +24,9 @@ interface RawLivescore {
   start_tz: string;
 }
 
-function parseInning(raw: string): { number: number; half: "top" | "bottom" } | null {
+function parseInning(
+  raw: string,
+): { number: number; half: "top" | "bottom" } | null {
   const match = raw.match(/^([TB])(\d+)/);
 
   if (!match) {
@@ -67,6 +70,7 @@ function mapLivescore(raw: RawLivescore): Livescore {
     pitcher: raw.pitcher,
     batter: raw.batter,
     status: mapStatus(raw.status),
+    start: fromZonedTime(raw.start, raw.start_tz),
   };
 }
 

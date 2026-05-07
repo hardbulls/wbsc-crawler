@@ -1,4 +1,3 @@
-import { JSDOM } from "jsdom";
 import { querySelectorOrThrow } from "./Parser/Selector";
 import { Standing } from "./Model/Standing";
 import { StandingType } from "./Model/StandingType";
@@ -52,6 +51,7 @@ const IGNORE_TABLES = ["Aktueller Daily Report"].map((v) => v.toLowerCase());
 
 export const StandingsCrawler = {
   crawl: async (url: string): Promise<Array<Standing>> => {
+    const { JSDOM } = await import("jsdom");
     const html = await (await fetchUrl(url, { method: "GET" })).text();
     const dom = new JSDOM(html);
 
