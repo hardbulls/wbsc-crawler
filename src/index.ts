@@ -16,6 +16,21 @@ export { Game } from "./Model/Game";
 export { Standing } from "./Model/Standing";
 export { GameStatus } from "./Model/GameStatus";
 export { Livescore } from "./Model/Livescore";
+export {
+  LivePlay,
+  LivePlayPlayer,
+  LivePlayBatterRecord,
+  LivePlayPitch,
+  LivePlayPitchType,
+  LivePlaySituation,
+  LivePlayBatter,
+  LivePlayPitcher,
+  LivePlayLineup,
+  LivePlayEvent,
+  LivePlayPitchOutcome,
+  LivePlayLinescore,
+  LivePlayLinescoreTotals,
+} from "./Model/LivePlay";
 
 type CrawlOptions = {
   timezone?: string;

@@ -1,4 +1,5 @@
 import { GameStatus } from "./GameStatus";
+import { LivePlay } from "./LivePlay";
 
 export interface Livescore {
   gameId: string;
@@ -17,4 +18,5 @@ export interface Livescore {
   batter: string;
   status: GameStatus;
   start: Date;
+  play?: LivePlay;
 }
