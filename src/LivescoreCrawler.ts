@@ -348,12 +348,28 @@ async function fetchLivePlay(gameId: string): Promise<LivePlay> {
     `${GAMEDATA_BASE_URL}/${gameId}/latest.json`,
     { method: "GET" },
   );
-  const latestPlay: number = await latestRes.json();
+  let latestPlay: number = await latestRes.json();
 
-  const playRes = await fetchUrl(
+  let playRes = await fetchUrl(
     `${GAMEDATA_BASE_URL}/${gameId}/play${latestPlay}.json`,
     { method: "GET" },
   );
+
+  // latest.json can point to a play not yet published on S3; fall back to previous
+  if (!playRes.ok && playRes.status === 404 && latestPlay > 1) {
+    latestPlay -= 1;
+    playRes = await fetchUrl(
+      `${GAMEDATA_BASE_URL}/${gameId}/play${latestPlay}.json`,
+      { method: "GET" },
+    );
+  }
+
+  if (!playRes.ok) {
+    throw new Error(
+      `Failed to fetch play data for game ${gameId}: HTTP ${playRes.status}`,
+    );
+  }
+
   const raw: RawLivePlay = await playRes.json();
 
   return mapLivePlay(raw);
