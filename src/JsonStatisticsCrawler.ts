@@ -144,6 +144,17 @@ export const JsonStatisticsCrawler = {
 
 const crawlUrl = async (url: string) => {
   const response = await fetchUrl(url, { method: "GET" });
+
+  const contentType = response.headers.get("content-type") ?? "";
+
+  if (!response.ok || !contentType.includes("application/json")) {
+    throw new Error(
+      `Failed to fetch statistics from ${url}: HTTP ${
+        response.status
+      } (content-type: ${contentType || "unknown"})`,
+    );
+  }
+
   const json = await response.json();
 
   const params = new URLSearchParams(url.split("?")[1]);

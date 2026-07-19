@@ -16,7 +16,15 @@ function getRandomUserAgent() {
   return USER_AGENTS[randomIndex];
 }
 
-export function fetchUrl(
+const RETRYABLE_STATUSES = new Set([403, 408, 429, 500, 502, 503, 504]);
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 1000;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export async function fetchUrl(
   url: string,
   options?: RequestInit,
 ): Promise<Response> {
@@ -36,5 +44,30 @@ export function fetchUrl(
     headers: headers,
   };
 
-  return fetch(url, options);
+  let lastResponse: Response | undefined;
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await fetch(url, options);
+
+      if (response.ok || !RETRYABLE_STATUSES.has(response.status)) {
+        return response;
+      }
+
+      lastResponse = response;
+    } catch (error) {
+      lastError = error;
+    }
+
+    if (attempt < MAX_RETRIES) {
+      await sleep(RETRY_DELAY_MS * 2 ** attempt);
+    }
+  }
+
+  if (lastResponse) {
+    return lastResponse;
+  }
+
+  throw lastError;
 }
